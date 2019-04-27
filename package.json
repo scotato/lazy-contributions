@@ -1,0 +1,23 @@
+{
+  "name": "lazy-contributions",
+  "version": "1.0.0",
+  "description": "green tile gang",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scotato/lazy-contributions.git"
+  },
+  "keywords": [
+    "github",
+    "😪"
+  ],
+  "author": "Scott <wsdodge@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scotato/lazy-contributions/issues"
+  },
+  "homepage": "https://github.com/scotato/lazy-contributions#readme"
+}
