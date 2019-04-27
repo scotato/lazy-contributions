@@ -14,10 +14,13 @@
     "github",
     "😪"
   ],
-  "author": "Scott <wsdodge@gmail.com>",
+  "author": "scott dodge <scott@goldilocks.design>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/scotato/lazy-contributions/issues"
   },
-  "homepage": "https://github.com/scotato/lazy-contributions#readme"
+  "homepage": "https://github.com/scotato/lazy-contributions#readme",
+  "dependencies": {
+    "simple-git": "1.110.0"
+  }
 }
