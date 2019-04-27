@@ -6,6 +6,7 @@ const querystring = require('querystring')
 require('dotenv').config()
 
 const GIT_SSH_COMMAND = "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+const git = gitP().env({ ...process.env, GIT_SSH_COMMAND })
 
 const nasa = {
   neoFeed: 'https://api.nasa.gov/neo/rest/v1/feed',
@@ -16,8 +17,8 @@ const nasa = {
   }
 }
 
-gitP().env({ ...process.env, GIT_SSH_COMMAND })
-  .pull('origin', 'master')
+
+git.pull('origin', 'master')
   .then(status =>
     fetch(`${nasa.neoFeed}?${querystring.stringify(nasa.neoFeedParams)}`))
   .then(res => res.json())
@@ -26,11 +27,10 @@ gitP().env({ ...process.env, GIT_SSH_COMMAND })
     const asteroids = json.near_earth_objects[today]
     const data = `**${today}** There are ${asteroids.length} near earth objects!`
     
-    fs.appendFile('ASTEROIDS.md', data, err => {
-      if (err) throw err;
-    })
+    fs.appendFileSync('ASTEROIDS.md', data)
+
+    return git.add('ASTEROIDS.md')
+    .commit('log very important asteroid data')
+    .push('origin', 'master')
   })
-  .add('ASTEROIDS.md')
-  .commit('log very important asteroid data')
-  .push('origin', 'master')
   .catch(err => console.log)
