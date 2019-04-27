@@ -1,12 +1,13 @@
+require('dotenv').config()
 const fs = require('fs')
 const moment = require('moment')
+const git = require('simple-git')
 const gitP = require('simple-git/promise')
 const fetch = require('node-fetch')
 const querystring = require('querystring')
-require('dotenv').config()
 
 const GIT_SSH_COMMAND = "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-const git = gitP().env({ ...process.env, GIT_SSH_COMMAND })
+const gitEnv = { ...process.env, GIT_SSH_COMMAND }
 
 const nasa = {
   neoFeed: 'https://api.nasa.gov/neo/rest/v1/feed',
@@ -17,8 +18,7 @@ const nasa = {
   }
 }
 
-
-git.pull('origin', 'master')
+gitP().env(gitEnv).pull('origin', 'master')
   .then(status =>
     fetch(`${nasa.neoFeed}?${querystring.stringify(nasa.neoFeedParams)}`))
   .then(res => res.json())
@@ -29,8 +29,10 @@ git.pull('origin', 'master')
     
     fs.appendFileSync('ASTEROIDS.md', data)
 
-    return git.add('ASTEROIDS.md')
-    .commit('log very important asteroid data')
-    .push('origin', 'master')
+    return git()
+      .env(gitEnv)
+      .add('ASTEROIDS.md')
+      .commit('log very important asteroid data')
+      .push('origin', 'master')
   })
-  .catch(err => console.log)
+  .catch(console.log)
